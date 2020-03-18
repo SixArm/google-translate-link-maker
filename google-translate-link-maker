@@ -2,22 +2,20 @@
 set -euf
 
 ##
-# Googke Trabskate link maker
+# Googke Translate link maker
 #
 # Syntax:
 #
-#     google-translate-link-maker <uri> <source language code>
+#     google-translate-link-maker <uri> <html-or-md> <source language code>
 #
 # Example:
 #
-#     $ google-translate-link-maker http://example.com en
+#     $ google-translate-link-maker http://example.com html en
 #
 # Output:
 #
 #   * A list of Google Translate links to translate the URI
 # 
-#   * The output format is m
-#
 # Language codes and labels:
 #
 #   * ar: "عربي" (Arabic)
@@ -48,29 +46,38 @@ out() { printf %s\\n "$*" ; }
 
 link(){
     uri_encoded="$1"
-    source_langauge_code="$2"
-    output_language_code="$3"
-    label="$4"
-    out "<a href=\"https://translate.google.com/translate?sl=$source_language_code&tl=$output_language_code&u=$uri_encoded\">$label</a>"
+    output_format="$2"
+    source_langauge_code="$3"
+    output_language_code="$4"
+    label="$5"
+    case $output_format in
+    md)
+        out "[$label](https://translate.google.com/translate?sl=$source_language_code&tl=$output_language_code&u=$uri_encoded)"
+        ;;
+    *)
+        out "<a href=\"https://translate.google.com/translate?sl=$source_language_code&tl=$output_language_code&u=$uri_encoded\">$label</a>"
+        ;;
+    esac
 }
 
 uri="$1"
-source_language_code="$2"
+output_format="$2"
+source_language_code="$3"
 uri_encoded=$(urlencode "$uri")
 
-link "$uri_encoded" "$source_language_code" "ar" "عربي"
-link "$uri_encoded" "$source_language_code" "de" "Deutsch"
-link "$uri_encoded" "$source_language_code" "el" "Ελληνικά"
-link "$uri_encoded" "$source_language_code" "en" "English"
-link "$uri_encoded" "$source_language_code" "es" "Español"
-link "$uri_encoded" "$source_language_code" "fr" "Français"
-link "$uri_encoded" "$source_language_code" "he" "עברית"
-link "$uri_encoded" "$source_language_code" "hi" "हिन्दी"
-link "$uri_encoded" "$source_language_code" "it" "Italiano"
-link "$uri_encoded" "$source_language_code" "ko" "한국어"
-link "$uri_encoded" "$source_language_code" "pa" "ਪੰਜਾਬੀ"
-link "$uri_encoded" "$source_language_code" "ru" "Русский"
-link "$uri_encoded" "$source_language_code" "ta" "தமிழ்"
-link "$uri_encoded" "$source_language_code" "th" "ไทย"
-link "$uri_encoded" "$source_language_code" "vt" "Việt"
-link "$uri_encoded" "$source_language_code" "zh" "中文"
+link "$uri_encoded" "$output_format" "$source_language_code" "ar" "عربي"
+link "$uri_encoded" "$output_format" "$source_language_code" "de" "Deutsch"
+link "$uri_encoded" "$output_format" "$source_language_code" "el" "Ελληνικά"
+link "$uri_encoded" "$output_format" "$source_language_code" "en" "English"
+link "$uri_encoded" "$output_format" "$source_language_code" "es" "Español"
+link "$uri_encoded" "$output_format" "$source_language_code" "fr" "Français"
+link "$uri_encoded" "$output_format" "$source_language_code" "he" "עברית"
+link "$uri_encoded" "$output_format" "$source_language_code" "hi" "हिन्दी"
+link "$uri_encoded" "$output_format" "$source_language_code" "it" "Italiano"
+link "$uri_encoded" "$output_format" "$source_language_code" "ko" "한국어"
+link "$uri_encoded" "$output_format" "$source_language_code" "pa" "ਪੰਜਾਬੀ"
+link "$uri_encoded" "$output_format" "$source_language_code" "ru" "Русский"
+link "$uri_encoded" "$output_format" "$source_language_code" "ta" "தமிழ்"
+link "$uri_encoded" "$output_format" "$source_language_code" "th" "ไทย"
+link "$uri_encoded" "$output_format" "$source_language_code" "vt" "Việt"
+link "$uri_encoded" "$output_format" "$source_language_code" "zh" "中文"
